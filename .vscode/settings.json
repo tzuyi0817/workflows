@@ -7,5 +7,12 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
+  "debug.javascript.autoAttachFilter": "smart",
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "workbench.editor.splitInGroupLayout": "vertical",
+  "terminal.integrated.shellIntegration.enabled": true,
+
   "cSpell.words": ["Tzuyi"]
 }
