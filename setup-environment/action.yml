@@ -3,6 +3,10 @@ name: Setup Environment
 description: Setup environment and install dependencies.
 
 inputs:
+  fetch-depth:
+    description: The fetch depth for actions/checkout to fetch all history for all branches and tags.
+    default: 'false'
+
   node-version:
     description: Version Spec of the version to use.
     default: 'lts/*'
@@ -24,6 +28,8 @@ runs:
   steps:
     - name: checkout
       uses: actions/checkout@v6
+      with:
+        fetch-depth: "${{ inputs.fetch-depth == 'true' && '0' || '1' }}"
 
     - name: install pnpm
       uses: pnpm/action-setup@v4
