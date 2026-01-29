@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --fix .",
-    "release": "bumpp && ./release.sh",
+    "release": "bumpp && bash ./release.sh",
     "prepare": "husky"
   },
   "optionalDependencies": {

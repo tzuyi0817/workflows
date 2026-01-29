@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  workflow_call:
+    inputs:
+      github-release:
+        required: false
+        type: boolean
+        default: true
+      publish:
+        required: false
+        type: boolean
+        default: false
+      build:
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: setup environment
+        uses: tzuyi0817/workflows/setup-environment@v1
+
+      - name: generate gitHub changelog
+        run: pnpx changelogithub
+        continue-on-error: true
+        if: ${{ inputs.github-release }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build
+        run: ${{ inputs.build }}
+        if: ${{ inputs.build && inputs.publish }}
+
+      - name: publish to npm
+        run: pnpm -r publish --access public --no-git-checks
+        if: ${{ inputs.publish }}
