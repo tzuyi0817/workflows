@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      test:
+        required: false
+        type: string
+        default: echo skip test
+
+      install-other-deps:
+        required: false
+        type: string
+        default: ''
+
+      env_list:
+        description: Enter one variable per line (for example, VAR=1, press Enter, then enter VAR=2).
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup environment
+        uses: tzuyi0817/workflows/setup-environment@v1
+
+      - name: install other dependencies
+        run: ${{ inputs.install-other-deps }}
+        if: ${{ inputs.install-other-deps }}
+
+      - name: setting env variables
+        run: |
+          echo "${{ inputs.env_list }}" >> $GITHUB_ENV
+        if: ${{ inputs.env_list }}
+
+      - name: run tests
+        run: ${{ inputs.test }}

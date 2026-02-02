@@ -5,8 +5,7 @@ A collection of reusable GitHub Actions workflows for projects.
 ## Included Workflows
 
 - [`release`](./.github/workflows/release.yml): Generate github changelog and publishes releases to npm
-
-- **Release**:
+- [`test`](./.github/workflows/test.yml): Runs tests and reports coverage
 
 ## Actions
 
@@ -17,15 +16,15 @@ A collection of reusable GitHub Actions workflows for projects.
 To use action and workflow, reference it in your project’s `.github/workflows/*.yml`:
 
 ```yaml
-# action
-name: setup environment
-
-uses: tzuyi0817/workflows/setup-environment@v1
-```
-
-```yaml
 # workflow
 name: release
 
 uses: tzuyi0817/workflows/.github/workflows/release.yml@v1
+```
+
+```yaml
+# action
+name: setup environment
+
+uses: tzuyi0817/workflows/setup-environment@v1
 ```
