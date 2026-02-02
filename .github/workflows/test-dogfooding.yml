@@ -1,0 +1,11 @@
+name: Test Dogfooding
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  release:
+    uses: tzuyi0817/workflows/.github/workflows/test.yml@v1
