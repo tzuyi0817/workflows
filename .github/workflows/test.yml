@@ -13,7 +13,7 @@ on:
         type: string
         default: ''
 
-      env_list:
+      env-list:
         description: Enter one variable per line (for example, VAR=1, press Enter, then enter VAR=2).
         required: false
         type: string
@@ -32,9 +32,10 @@ jobs:
         if: ${{ inputs.install-other-deps }}
 
       - name: setting env variables
+        shell: bash
         run: |
-          echo "${{ inputs.env_list }}" >> $GITHUB_ENV
-        if: ${{ inputs.env_list }}
+          echo "${{ inputs.env-list }}" >> $GITHUB_ENV
+        if: ${{ inputs.env-list }}
 
       - name: run tests
         run: ${{ inputs.test }}

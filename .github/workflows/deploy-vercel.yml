@@ -1,0 +1,75 @@
+name: Deploy to Vercel
+
+on:
+  workflow_call:
+    inputs:
+      vercel-token:
+        required: true
+        type: string
+
+      environment:
+        type: string
+        default: ''
+
+      prod:
+        type: boolean
+        default: false
+
+      create-comment:
+        type: boolean
+        default: false
+
+jobs:
+  deploy-vercel:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      deploymentUrl: ${{ steps.deploy.outputs.deploymentUrl }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: install pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: pull Vercel environment information
+        shell: bash
+        run: |
+          ENV=$(echo "${{ inputs.environment }}" | tr '[:upper:]' '[:lower:]')
+          vercel pull --yes --environment="$ENV" --token="${{ inputs.vercel-token }}"
+
+      - name: build project artifacts
+        run: vercel build ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+
+      - name: deploy project artifacts to Vercel
+        id: deploy
+        shell: bash
+        run: |
+          if [ "${{ inputs.create-comment }}" = "true" ]; then
+            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }} > deploy.log
+            echo "deploymentUrl=$(cat deploy.log)" >> $GITHUB_OUTPUT
+          else
+            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+          fi
+
+  create-comment:
+    if: ${{ inputs.create-comment }}
+    needs: deploy-vercel
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: comment URL to PR
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Deployed at ${{ env.DEPLOYMENT_URL }}"
+            })
+        env:
+          DEPLOYMENT_URL: ${{ needs.deploy-vercel.outputs.deploymentUrl }}

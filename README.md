@@ -6,6 +6,7 @@ A collection of reusable GitHub Actions workflows for projects.
 
 - [`release`](./.github/workflows/release.yml): Generate github changelog and publishes releases to npm
 - [`test`](./.github/workflows/test.yml): Runs tests and reports coverage
+- [`deploy-vercel`](./.github/workflows/deploy-vercel.yml): Deploy to Vercel ans create comment
 
 ## Actions
 

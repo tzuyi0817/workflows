@@ -7,5 +7,5 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  release:
+  test:
     uses: tzuyi0817/workflows/.github/workflows/test.yml@v1
