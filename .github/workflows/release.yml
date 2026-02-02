@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: setup environment
         uses: tzuyi0817/workflows/setup-environment@v1
+        with:
+          fetch-depth: true
 
       - name: generate github changelog
         run: pnpx changelogithub
