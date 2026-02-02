@@ -29,7 +29,7 @@ jobs:
       - name: setup environment
         uses: tzuyi0817/workflows/setup-environment@v1
 
-      - name: generate gitHub changelog
+      - name: generate github changelog
         run: pnpx changelogithub
         continue-on-error: true
         if: ${{ inputs.github-release }}
