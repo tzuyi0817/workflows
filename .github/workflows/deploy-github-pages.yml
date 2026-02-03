@@ -19,6 +19,10 @@ on:
         type: boolean
         default: false
 
+      environment:
+        type: string
+        default: github-pages
+
 permissions:
   contents: read
   pages: write
@@ -56,6 +60,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: ${{ github.ref == format('refs/heads/{0}', inputs.release-branch) }}
+
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Deploy to github pages
