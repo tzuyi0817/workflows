@@ -2,11 +2,17 @@ name: Deploy to Vercel
 
 on:
   workflow_call:
-    inputs:
-      vercel-token:
+    secrets:
+      VERCEL_TOKEN:
         required: true
-        type: string
 
+      VERCEL_ORG_ID:
+        required: true
+
+      VERCEL_PROJECT_ID:
+        required: true
+
+    inputs:
       environment:
         type: string
         default: ''
@@ -23,6 +29,9 @@ jobs:
   deploy-vercel:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     outputs:
       deploymentUrl: ${{ steps.deploy.outputs.deploymentUrl }}
     steps:
@@ -37,20 +46,20 @@ jobs:
         shell: bash
         run: |
           ENV=$(echo "${{ inputs.environment }}" | tr '[:upper:]' '[:lower:]')
-          vercel pull --yes --environment="$ENV" --token="${{ inputs.vercel-token }}"
+          vercel pull --yes --environment="$ENV" --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Build project artifacts
-        run: vercel build ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+        run: vercel build ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy project artifacts to Vercel
         id: deploy
         shell: bash
         run: |
           if [ "${{ inputs.create-comment }}" = "true" ]; then
-            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }} > deploy.log
+            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }} > deploy.log
             echo "deploymentUrl=$(cat deploy.log)" >> $GITHUB_OUTPUT
           else
-            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+            vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
           fi
 
   create-comment:

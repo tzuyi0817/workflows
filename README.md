@@ -19,14 +19,14 @@ To use action and workflow, reference it in your project’s `.github/workflows/
 
 ```yaml
 # workflow
-name: release
+name: Release
 
 uses: tzuyi0817/workflows/.github/workflows/release.yml@v1
 ```
 
 ```yaml
 # action
-name: setup environment
+name: Setup environment
 
 uses: tzuyi0817/workflows/setup-environment@v1
 ```
