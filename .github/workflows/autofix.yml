@@ -1,0 +1,28 @@
+name: Autofix ci
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+  workflow_call:
+    inputs:
+      command:
+        type: string
+        default: 'pnpm lint && pnpm format'
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup environment
+        uses: tzuyi0817/workflows/setup-environment@v1
+        with:
+          no-frozen-lockfile: true
+
+      - name: Code formatting
+        run: ${{ inputs.command }}
+        if: ${{ inputs.command != '' }}
+
+      - name: Commit
+        uses: autofix-ci/action@v1
