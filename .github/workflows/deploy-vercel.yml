@@ -29,11 +29,14 @@ jobs:
   deploy-vercel:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
     outputs:
-      deploymentUrl: ${{ steps.deploy.outputs.deploymentUrl }}
+      deployment-url: ${{ steps.deploy.outputs.deployment-url }}
+
     steps:
       - uses: actions/checkout@v6
       - name: Install pnpm
@@ -57,7 +60,7 @@ jobs:
         run: |
           if [ "${{ inputs.create-comment }}" = "true" ]; then
             vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }} > deploy.log
-            echo "deploymentUrl=$(cat deploy.log)" >> $GITHUB_OUTPUT
+            echo "deployment-url=$(cat deploy.log)" >> $GITHUB_OUTPUT
           else
             vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
           fi
@@ -66,9 +69,11 @@ jobs:
     if: ${{ inputs.create-comment }}
     needs: deploy-vercel
     runs-on: ubuntu-latest
+
     permissions:
       issues: write
       pull-requests: write
+
     steps:
       - name: Comment URL to PR
         uses: actions/github-script@v8
@@ -81,4 +86,4 @@ jobs:
               body: "Deployed at ${{ env.DEPLOYMENT_URL }}"
             })
         env:
-          DEPLOYMENT_URL: ${{ needs.deploy-vercel.outputs.deploymentUrl }}
+          DEPLOYMENT_URL: ${{ needs.deploy-vercel.outputs.deployment-url }}
