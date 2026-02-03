@@ -24,22 +24,22 @@ jobs:
       id-token: write
 
     steps:
-      - name: setup environment
+      - name: Setup environment
         uses: tzuyi0817/workflows/setup-environment@v1
         with:
           fetch-depth: true
 
-      - name: generate github changelog
+      - name: Generate github changelog
         run: pnpx changelogithub
         continue-on-error: true
         if: ${{ inputs.github-release }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: build
+      - name: Build
         run: ${{ inputs.build }}
         if: ${{ inputs.build && inputs.publish }}
 
-      - name: publish to npm
+      - name: Publish to npm
         run: pnpm -r publish --access public --no-git-checks
         if: ${{ inputs.publish }}

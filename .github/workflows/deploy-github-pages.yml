@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: setup environment
+      - name: Setup environment
         uses: tzuyi0817/workflows/setup-environment@v1
 
-      - name: build
+      - name: Build
         run: ${{ inputs.build }}
         if: ${{ inputs.build }}
 
@@ -40,14 +40,14 @@ jobs:
     if: ${{ github.ref == format('refs/heads/{0}', inputs.release-branch) }}
 
     steps:
-      - name: download artifact
+      - name: Download artifact
         uses: actions/download-artifact@v7
         if: ${{ inputs.build && inputs.production-files }}
         with:
           name: production-files
           path: ${{ inputs.production-files }}
 
-      - name: deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         if: ${{ inputs.build && inputs.production-files }}
         with:

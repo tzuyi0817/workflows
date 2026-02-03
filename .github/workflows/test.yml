@@ -21,18 +21,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: setup environment
+      - name: Setup environment
         uses: tzuyi0817/workflows/setup-environment@v1
 
-      - name: install other dependencies
+      - name: Install other dependencies
         run: ${{ inputs.install-other-deps }}
         if: ${{ inputs.install-other-deps }}
 
-      - name: setting env variables
+      - name: Setting env variables
         shell: bash
         run: |
           echo "${{ inputs.env-list }}" >> $GITHUB_ENV
         if: ${{ inputs.env-list }}
 
-      - name: run tests
+      - name: Run tests
         run: ${{ inputs.test }}

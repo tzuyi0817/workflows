@@ -31,25 +31,25 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: checkout
+    - name: Checkout
       uses: actions/checkout@v6
       with:
         fetch-depth: "${{ inputs.fetch-depth && '0' || '1' }}"
 
-    - name: install pnpm
+    - name: Install pnpm
       uses: pnpm/action-setup@v4
       with:
         run_install: false
       if: ${{ inputs.package-manager == 'pnpm' }}
 
-    - name: setup node
+    - name: Setup node
       uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.package-manager }}
         registry-url: 'https://registry.npmjs.org'
 
-    - name: install dependencies
+    - name: Install dependencies
       shell: bash
       run: ${{ inputs.package-manager }} install ${{ inputs.no-frozen-lockfile && '--no-frozen-lockfile' || '' }}
       if: ${{ inputs.auto-install }}
