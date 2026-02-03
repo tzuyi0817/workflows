@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      build:
+        type: string
+        default: ''
+
+      production-files:
+        type: string
+        default: ''
+
+      release-branch:
+        type: string
+        default: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: setup environment
+        uses: tzuyi0817/workflows/setup-environment@v1
+
+      - name: build
+        run: ${{ inputs.build }}
+        if: ${{ inputs.build }}
+
+      - name: upload production-ready build files
+        uses: actions/upload-artifact@v6
+        if: ${{ inputs.build && inputs.production-files }}
+        with:
+          name: production-files
+          path: ${{ inputs.production-files }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == format('refs/heads/{0}', inputs.release-branch) }}
+
+    steps:
+      - name: download artifact
+        uses: actions/download-artifact@v7
+        if: ${{ inputs.build && inputs.production-files }}
+        with:
+          name: production-files
+          path: ${{ inputs.production-files }}
+
+      - name: deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: ${{ inputs.build && inputs.production-files }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ inputs.production-files }}
