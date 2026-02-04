@@ -8,7 +8,7 @@ on:
     inputs:
       command:
         type: string
-        default: 'pnpm lint && pnpm format'
+        default: 'pnpm format && pnpm lint'
 
 jobs:
   autofix:

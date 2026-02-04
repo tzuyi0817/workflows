@@ -8,6 +8,7 @@ A collection of reusable GitHub Actions workflows for projects.
 - [`test`](./.github/workflows/test.yml): Runs tests and reports coverage
 - [`deploy-vercel`](./.github/workflows/deploy-vercel.yml): Deploy to Vercel ans create comment
 - [`deploy-github-pages`](./.github/workflows/deploy-github-pages.yml): Deploy to Github Pages
+- [`autofix`](./.github/workflows/autofix.yml): Automatically fixes code formatting for pull requests
 
 ## Actions
 
