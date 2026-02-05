@@ -32,3 +32,7 @@ name: Setup environment
 
 uses: tzuyi0817/workflows/setup-environment@v1
 ```
+
+## License
+
+This library is licensed under the [MIT](https://opensource.org/licenses/MIT) License. For more details, please refer to the [LICENSE](./LICENSE) file.
