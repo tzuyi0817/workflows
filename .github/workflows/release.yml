@@ -30,7 +30,7 @@ jobs:
           fetch-depth: true
 
       - name: Generate github changelog
-        run: pnpx changelogithub
+        run: pnpm dlx changelogithub
         continue-on-error: true
         if: ${{ inputs.github-release }}
         env:

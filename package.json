@@ -2,6 +2,7 @@
   "name": "workflows",
   "type": "module",
   "version": "1.4.0",
+  "private": true,
   "packageManager": "pnpm@10.27.0",
   "author": "Tzuyi",
   "license": "MIT",

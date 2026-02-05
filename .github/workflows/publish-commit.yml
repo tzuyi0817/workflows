@@ -1,0 +1,30 @@
+name: Publish Commit
+
+on:
+  workflow_call:
+    inputs:
+      build:
+        type: string
+        default: pnpm run build
+
+      compact:
+        type: boolean
+        default: false
+
+      packages:
+        type: string
+        default: ''
+
+jobs:
+  publish-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup environment
+        uses: tzuyi0817/workflows/setup-environment@v1
+
+      - name: Build
+        run: ${{ inputs.build }}
+
+      - name: Publish
+        run: pnpm dlx pkg-pr-new publish --pnpm ${{ inputs.compact && '--compact' || '' }} ${{ inputs.packages }}
