@@ -15,6 +15,10 @@ on:
         type: string
         default: ''
 
+      tag:
+        type: string
+        default: ''
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -41,5 +45,7 @@ jobs:
         if: ${{ inputs.build && inputs.publish }}
 
       - name: Publish to npm
-        run: pnpm -r publish --access public --no-git-checks
+        run: pnpm -r publish --access public --no-git-checks ${{ env.TAG_ARG }}
         if: ${{ inputs.publish }}
+        env:
+          TAG_ARG: ${{ inputs.tag && format('--tag {0}', inputs.tag) || '' }}
