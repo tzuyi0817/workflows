@@ -1,7 +1,7 @@
 {
   "name": "workflows",
   "type": "module",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "packageManager": "pnpm@11.20.0",
   "author": "Tzuyi",
