@@ -44,8 +44,10 @@ jobs:
         run: ${{ inputs.build }}
         if: ${{ inputs.build && inputs.publish }}
 
-      - name: Publish to npm
-        run: pnpm -r publish --access public --no-git-checks ${{ env.TAG_ARG }}
+      - name: Stage publish to npm
+        run: |
+          pnpm stage publish -r --access public --no-git-checks --provenance ${{ env.TAG_ARG }}
+          echo 'Packages are staged, not published. Run `pnpm stage approve` locally to publish them.' >> "$GITHUB_STEP_SUMMARY"
         if: ${{ inputs.publish }}
         env:
           TAG_ARG: ${{ inputs.tag && format('--tag {0}', inputs.tag) || '' }}

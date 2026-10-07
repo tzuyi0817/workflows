@@ -8,7 +8,7 @@ A collection of reusable GitHub Actions workflows for projects.
 - [`deploy-github-pages`](./.github/workflows/deploy-github-pages.yml): Deploy to Github Pages
 - [`deploy-vercel`](./.github/workflows/deploy-vercel.yml): Deploy to Vercel ans create comment
 - [`publish-commit`](./.github/workflows/publish-commit.yml): Preview release without publishing anything to NPM
-- [`release`](./.github/workflows/release.yml): Generate github changelog and publishes releases to npm
+- [`release`](./.github/workflows/release.yml): Generate github changelog and stages releases to npm, approve them locally with `pnpm stage approve`
 - [`test`](./.github/workflows/test.yml): Runs tests and reports coverage
 
 ## Actions
