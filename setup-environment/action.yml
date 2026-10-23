@@ -46,6 +46,7 @@ runs:
       uses: actions/setup-node@v7
       with:
         node-version: ${{ inputs.node-version }}
+        check-latest: true
         cache: ${{ inputs.package-manager }}
         registry-url: 'https://registry.npmjs.org'
 
