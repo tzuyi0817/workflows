@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.7.1",
   "private": true,
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.16.1",
   "author": "Tzuyi",
   "license": "MIT",
   "scripts": {
@@ -19,7 +19,7 @@
     "lint-staged": "^17.6.0"
   },
   "devDependencies": {
-    "@component-hook/eslint-plugin": "^1.6.0",
+    "@component-hook/eslint-plugin": "^1.7.0",
     "bumpp": "^12.3.0",
     "eslint": "^9.39.5",
     "prettier": "^3.9.10"
