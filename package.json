@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --fix .",
-    "format": "prettier --write .",
+    "format": "oxfmt",
     "release": "bumpp && bash ./release.sh",
     "prepare": "husky"
   },
@@ -22,6 +22,6 @@
     "@component-hook/eslint-plugin": "^1.8.1",
     "bumpp": "^12.3.0",
     "eslint": "^9.39.5",
-    "prettier": "^3.10.1"
+    "oxfmt": "^0.78.0"
   }
 }
